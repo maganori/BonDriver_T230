@@ -1,0 +1,36 @@
+;
+; MyGica T230C WinUSB
+;
+[Version]
+Signature="$Windows NT$"
+Class=Media
+ClassGuid={4d36e96c-e325-11ce-bfc1-08002be10318}
+Provider=%AuthorName%
+DriverVer=10/01/2022,22.10.01.00
+
+[Manufacturer]
+%AuthorName%=T230C_WinUSB,ntx86,ntamd64
+
+[T230C_WinUSB.ntx86]
+%T230C_WinUSB.DeviceDesc%=T230C_WinUSB.DeviceInstall,USB\VID_0572&PID_C68A
+
+[T230C_WinUSB.ntamd64]
+%T230C_WinUSB.DeviceDesc%=T230C_WinUSB.DeviceInstall,USB\VID_0572&PID_C68A
+
+[T230C_WinUSB.DeviceInstall]
+Include=winusb.inf
+Needs=WINUSB.NT
+
+[T230C_WinUSB.DeviceInstall.Services]
+Include=winusb.inf
+Needs=WINUSB.NT.Services
+
+[T230C_WinUSB.DeviceInstall.HW]
+AddReg=T230C_WinUSB.DeviceSetup.AddReg
+
+[T230C_WinUSB.DeviceSetup.AddReg]
+HKR,,DeviceInterfaceGUIDs,0x00010000,"{00347aaf-38dc-4522-9a32-13957dafec54}"
+
+[Strings]
+AuthorName="hendecarows"
+T230C_WinUSB.DeviceDesc="MyGica T230C DVB-C Receiver Device (WinUSB)"

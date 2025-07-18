@@ -1,0 +1,7 @@
+{
+  "builtin-baseline": "6df3270abdba60f18ec48308dbd72ece94729e1e",
+  "dependencies": [
+    "plog",
+    "toml11"
+  ]
+}
