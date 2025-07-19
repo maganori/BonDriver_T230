@@ -48,10 +48,10 @@ size_t TsmfParser::stream_size()
 	return ts_queue_.size() * ts_buffer_size_;
 }
 
-// 相対TSインデックス番号が有効である
+// 相対TS番号が有効である
 bool TsmfParser::has_tsmf_number() const
 {
-	return (tsmf_number_ >= 1 || tsmf_number_ <= 15) ? true : false;
+	return (tsmf_number_ >= 1 && tsmf_number_ <= 15) ? true : false;
 }
 
 // TSバッファサイズの変更
@@ -135,7 +135,7 @@ bool TsmfParser::push(std::unique_ptr<std::vector<uint8_t>>& stream_buffer)
 
 	result_code_ = Result::None;
 
-	// 相対TSインデックスが範囲外の場合は入力されたTSデータをそのまま移動
+	// 相対TS番号が範囲外の場合は入力されたTSデータをそのまま移動
 	if (!has_tsmf_number())
 	{
 		ts_queue_.push(std::move(stream_buffer));
@@ -314,7 +314,7 @@ bool TsmfParser::parse_tsmf_packet(const uint8_t* buffer, size_t size)
 		return false;
 	}
 
-	// 相対TSインデックスが範囲外の場合は全てのスロットを返す
+	// 相対TS番号が範囲外の場合は全てのスロットを返す
 	if (tsmf_number_ < 1 || tsmf_number_ > 15) { return true; }
 
 	// TSMF多重フレームヘッダ

@@ -38,14 +38,14 @@ public:
 	Result result_code() const { return result_code_; }					// キュー処理の結果
 	size_t get_ts_buffer_size() const { return ts_buffer_size_; }		// TSバッファサイズ
 	size_t get_ts_queue_size() const { return ts_queue_size_; }			// キューサイズ
-	int32_t get_tsmf_number() const { return tsmf_number_; }				// 相対TSインデックス番号
+	int32_t get_tsmf_number() const { return tsmf_number_; }			// 相対TS番号
 	bool get_stream_status(std::vector<uint8_t>& stream_status) const;	// 相対ストリーム番号に対する有効、無効
 	size_t size();														// キューに格納されている要素の個数
 	size_t stream_size();												// キューに格納されているTSサイズ(要素×バッファサイズ)
-	bool has_tsmf_number() const;										// 相対TSインデックス番号が有効
+	bool has_tsmf_number() const;										// 相対TS番号が有効
 	void set_ts_buffer_size(size_t size);								// TSバッファサイズの変更
 	void set_ts_queue_size(size_t size);								// キューサイズの変更
-	void set_tsmf_number(int32_t index);									// 相対TSインデックス番号の設定
+	void set_tsmf_number(int32_t index);								// 相対TS番号の設定
 	void set_timeout_push(const std::chrono::milliseconds& timeout);	// キュー追加時タイムアウト時間を変更
 	void set_timeout_pop(const std::chrono::milliseconds& timeout);		// キュー取出し時タイムアウト時間を変更
 
