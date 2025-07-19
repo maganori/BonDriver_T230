@@ -36,7 +36,7 @@ git submodule update --init --recursive
    3. スタートアップ設定
    4. 再起動
 3. 再起動後に表示されるオプション一覧から以下を選択します
-   1. 7)ドライバー署名の強制を無効にする
+   * 7)ドライバー署名の強制を無効にする
 
 #### ドライバーのインストール方法
 
@@ -48,20 +48,20 @@ git submodule update --init --recursive
 6. 参照ボタンからinfファイルのあるディレクトリを指定
 7. このドライバーソフトウェアをインストールします
 8. サウンド、ビデオ、およびゲーム コントロール
-   1. MyGica T230C DVB-C Receiver Device (WinUSB)
-   2. MyGica T230A DVB-C Receiver Device (WinUSB)
+   * MyGica T230C DVB-C Receiver Device (WinUSB)
+   * MyGica T230A DVB-C Receiver Device (WinUSB)
 
 ### ファームウェア
 
-ファームウェアを[osmc][link_osmc]から入手し、BonDriverと同じディレクトリに配置します。
+ファームウェアを[osmc][link_osmc]から入手し、`BonDriver_T230.dll`と同じディレクトリに配置します。
 
 * [dvb-demod-si2168-d60-01.fw][link_demodfw]
 * [dvb-tuner-si2141-a10-01.fw][link_tunerfw]
 
 ### 設定ファイル
 
-BonDriverと同じディレクトリに[TOML][link_toml]形式の設定ファイルを配置します。
-例えば、BonDriverが `BonDriver_T230.dll` であれば、設定ファイルは `BonDriver_T230.toml`で同じディレクトリに配置して下さい。
+`BonDriver_T230.dll`と同じディレクトリに[TOML][link_toml]形式の設定ファイル`BonDriver_T230.toml`を配置します。
+`BonDriver_T230.toml`は付属のものを使うのではなく、必要なチャンネルのみを抜粋して新規に作成することをおすすめします。
 
 ```toml
 [device]
@@ -87,6 +87,7 @@ demodulator.firmware = "dvb-demod-si2168-d60-01.fw"
 tuner.firmware = "dvb-tuner-si2141-a10-01.fw"
 
 # TS転送に用いるUSBリクエスト数、転送サイズ、キューサイズ
+# ドロップ発生状況に応じて調整するのが良いが調整してもゼロになる訳ではない
 stream.request.size = 16
 stream.transfer.size = 8192
 stream.queue.size = 64
@@ -101,7 +102,7 @@ name = "TransModulation"
 [[space.channel]]
 
 # チャンネル名
-name = "C47ch/TS0"
+name = "C47ch"
 
 # チャンネル周波数(Hz)
 frequency = 369000000
@@ -111,9 +112,36 @@ frequency = 369000000
 # tsmf_numberが設定されていないか範囲外の場合は分離しない
 tsmf_number = 1
 
-# 必要なチャンネル設定を順に追加する
+# 必要なチャンネル設定を順に[[space.channel]]から追加する
+[[space.channel]]
+name = "C48ch"
+frequency = 375000000
+tsmf_number = 2
+
+
 # 複数のチューニング空間を定義したい場合は[[space]]から同様に定義する
+[[space]]
+name = "UHF"
+
+[[space.channel]]
+name = "13ch"
+frequency = 473000000
+tsmf_number = 0
 ```
+
+視聴可能なチャンネルは、[TVTest][link_tvtest]を使用して確認することができます。
+`BonDriver_T230.dll`と付属の`BonDriver_T230.toml`がTVTestのBonDriverを配置するディレクトリに存在し、使用可能な状態になってるものとします。
+
+1. TVTestを起動し、「設定」「チャンネルスキャン」から全ての「対象チューニング空間」に対してチャンネルスキャンを実行します
+2. 「設定」を終了し、マウス右クリックのメニューから「ストリーム情報」「PID」タブを表示します
+3. 必要とするチャンネルに変更します
+4. 「ストリーム情報」の「PID」に`002f`が存在するか確認します
+   1. 存在する場合 TSMF 形式です
+   2. 「設定」「チャンネルスキャン」「チャンネル一覧」「チャンネル」からBonDriverのチャンネル名を確認します
+   3. 必要とするチャンネルに対して、3. 4.を繰り返します
+5. TVTestを終了し、`BonDriver_T230.toml`をエディタで開き、4.で確認したチャンネルの`tsmf_number = 0`を`tsmf_number = 1`に変更します
+6. TVTestを起動し、5. のチャンネルが正常に視聴出来ることを確認します
+7. 視聴できない場合は、`tsmf_number = 2`から1ずつ増やしながら最大15まで確認します
 
 ## 謝辞
 
@@ -149,6 +177,9 @@ GNU General Public License Version 2.0
 [link_demodfw]: https://github.com/osmc/dvb-firmware-osmc/raw/master/dvb-demod-si2168-d60-01.fw
 [link_tunerfw]: https://github.com/osmc/dvb-firmware-osmc/raw/master/dvb-tuner-si2141-a10-01.fw
 [link_osmc]: https://github.com/osmc/dvb-firmware-osmc
+
+[link_tvtest]: https://github.com/DBCTRADO/TVTest
+
 [link_dvbsky]: https://github.com/torvalds/linux/blob/master/drivers/media/usb/dvb-usb-v2/dvbsky.c
 [link_si2168]: https://github.com/torvalds/linux/blob/master/drivers/media/dvb-frontends/si2168.c
 [link_si2157]: https://github.com/torvalds/linux/blob/master/drivers/media/tuners/si2157.c
