@@ -11,6 +11,11 @@ log.level = 2
 guid = "{00347aaf-38dc-4522-9a32-13957dafec54}"
 
 # ファームウェアはBonDriverと同じディレクトリに配置
+
+# tsmf_number の意味（各チャンネル共通）
+# -1 = 自動: TSMF多重なら有効な相対TS番号のうち最小のものを分離し、TSMFでなければパススルー
+#  0 = パススルー（分離しない）
+#  1～15 = その相対TS番号を分離
 demodulator.firmware = "dvb-demod-si2168-d60-01.fw"
 tuner.firmware = "dvb-tuner-si2141-a10-01.fw"
 
@@ -26,52 +31,52 @@ name = "VHF"
 [[space.channel]]
 name = "1ch"
 frequency = 93000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "2ch"
 frequency = 99000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "3ch"
 frequency = 105000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "4ch"
 frequency = 173000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "5ch"
 frequency = 179000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "8ch"
 frequency = 195000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "9ch"
 frequency = 201000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "10ch"
 frequency = 207000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "11ch"
 frequency = 213000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "12ch"
 frequency = 219000000
-tsmf_number = 0
+tsmf_number = -1
 
 
 [[space]]
@@ -80,257 +85,257 @@ name = "CATV"
 [[space.channel]]
 name = "C13ch"
 frequency = 111000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C14ch"
 frequency = 117000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C15ch"
 frequency = 123000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C16ch"
 frequency = 129000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C17ch"
 frequency = 135000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C18ch"
 frequency = 141000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C19ch"
 frequency = 147000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C20ch"
 frequency = 153000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C21ch"
 frequency = 159000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C22ch"
 frequency = 167000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C23ch"
 frequency = 225000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C24ch"
 frequency = 231000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C25ch"
 frequency = 237000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C26ch"
 frequency = 243000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C27ch"
 frequency = 249000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C28ch"
 frequency = 255000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C29ch"
 frequency = 261000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C30ch"
 frequency = 267000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C31ch"
 frequency = 273000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C32ch"
 frequency = 279000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C33ch"
 frequency = 285000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C34ch"
 frequency = 291000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C35ch"
 frequency = 297000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C36ch"
 frequency = 303000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C37ch"
 frequency = 309000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C38ch"
 frequency = 315000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C39ch"
 frequency = 321000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C40ch"
 frequency = 327000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C41ch"
 frequency = 333000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C42ch"
 frequency = 339000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C43ch"
 frequency = 345000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C44ch"
 frequency = 351000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C45ch"
 frequency = 357000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C46ch"
 frequency = 363000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C47ch"
 frequency = 369000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C48ch"
 frequency = 375000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C49ch"
 frequency = 381000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C50ch"
 frequency = 387000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C51ch"
 frequency = 393000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C52ch"
 frequency = 399000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C53ch"
 frequency = 405000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C54ch"
 frequency = 411000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C55ch"
 frequency = 417000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C56ch"
 frequency = 423000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C57ch"
 frequency = 429000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C58ch"
 frequency = 435000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C59ch"
 frequency = 441000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C60ch"
 frequency = 447000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C61ch"
 frequency = 453000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C62ch"
 frequency = 459000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "C63ch"
 frequency = 465000000
-tsmf_number = 0
+tsmf_number = -1
 
 
 [[space]]
@@ -339,249 +344,249 @@ name = "UHF"
 [[space.channel]]
 name = "13ch"
 frequency = 473000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "14ch"
 frequency = 479000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "15ch"
 frequency = 485000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "16ch"
 frequency = 491000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "17ch"
 frequency = 497000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "18ch"
 frequency = 503000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "19ch"
 frequency = 509000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "20ch"
 frequency = 515000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "21ch"
 frequency = 521000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "22ch"
 frequency = 527000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "23ch"
 frequency = 533000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "24ch"
 frequency = 539000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "25ch"
 frequency = 545000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "26ch"
 frequency = 551000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "27ch"
 frequency = 557000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "28ch"
 frequency = 563000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "29ch"
 frequency = 569000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "30ch"
 frequency = 575000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "31ch"
 frequency = 581000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "32ch"
 frequency = 587000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "33ch"
 frequency = 593000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "34ch"
 frequency = 599000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "35ch"
 frequency = 605000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "36ch"
 frequency = 611000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "37ch"
 frequency = 617000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "38ch"
 frequency = 623000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "39ch"
 frequency = 629000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "40ch"
 frequency = 635000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "41ch"
 frequency = 641000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "42ch"
 frequency = 647000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "43ch"
 frequency = 653000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "44ch"
 frequency = 659000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "45ch"
 frequency = 665000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "46ch"
 frequency = 671000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "47ch"
 frequency = 677000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "48ch"
 frequency = 683000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "49ch"
 frequency = 689000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "50ch"
 frequency = 695000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "51ch"
 frequency = 701000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "52ch"
 frequency = 707000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "53ch"
 frequency = 713000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "54ch"
 frequency = 719000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "55ch"
 frequency = 725000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "56ch"
 frequency = 731000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "57ch"
 frequency = 737000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "58ch"
 frequency = 743000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "59ch"
 frequency = 749000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "60ch"
 frequency = 755000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "61ch"
 frequency = 761000000
-tsmf_number = 0
+tsmf_number = -1
 
 [[space.channel]]
 name = "62ch"
 frequency = 767000000
-tsmf_number = 0
+tsmf_number = -1

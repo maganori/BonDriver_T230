@@ -110,13 +110,21 @@ private:
 	std::chrono::milliseconds timeout_pop_{ 1000 };					// キュー用POP時タイムアウト(msec)
 
 	int32_t slot_counter_ = -1;										// TSMF多重フレームスロット番号
-	int32_t tsmf_number_ = -1;										// 残すストリームの相対番号
+	int32_t tsmf_number_ = -1;										// 残すストリームの相対番号（-1は自動選択）
+
+	// (patched) tsmf_number = -1 の自動選択用
+	bool auto_mode_ = true;											// 自動選択モード（tsmf_number_が-1の間は有効）
+	bool auto_decided_ = false;										// 自動選択の判定済みフラグ
+	int32_t effective_tsmf_number_ = 0;								// 自動選択で決まった相対番号（0はパススルー）
+	uint32_t auto_wait_packets_ = 0;								// 判定待ちで処理したパケット数
+	static constexpr uint32_t AUTO_WAIT_PACKET_LIMIT = 512;			// TSMFヘッダを待つパケット数の上限
 	TSMFData tsmf_data_;											// TSMF多重フレームヘッダ情報
 
 	std::unique_ptr<std::vector<uint8_t>> ts_buffer_;				// TSMF分離後のTS保存用バッファ
 	std::queue<std::unique_ptr<std::vector<uint8_t>>> ts_queue_;	// TSMF分離後のTS保存用キュー
 	size_t ts_buffer_data_size_ = 0;								// TSバッファ内データサイズ
 
+	bool use_parse_path() const;										// (patched) 分離処理を行うかどうか
 	bool parse_ts_buffer(const std::vector<uint8_t>& stream_buffer);	// TSバッファに対するTSMF分離
 	bool parse_tsmf_header(const uint8_t* buffer, size_t size);			// TSMFヘッダの解析
 	bool parse_tsmf_packet(const uint8_t* buffer, size_t size);			// TSMFパケットの処理

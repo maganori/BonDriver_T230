@@ -5,6 +5,8 @@
 
 #include "tsmf_parser.h"
 
+#include "plog/Log.h"	// (patched) for auto-selection logging
+
 #include <cstddef>
 #include <cstdint>
 #include <chrono>
@@ -83,6 +85,22 @@ void TsmfParser::set_timeout_pop(const std::chrono::milliseconds& timeout)
 void TsmfParser::set_tsmf_number(int32_t number)
 {
 	tsmf_number_ = number;
+
+	// (patched) -1は自動選択: 判定状態を初期化する
+	auto_mode_ = (number == -1);
+	auto_decided_ = false;
+	effective_tsmf_number_ = 0;
+	auto_wait_packets_ = 0;
+	slot_counter_ = -1;
+}
+
+// (patched) 分離処理（parse_ts_buffer）を通すかどうか
+// 固定番号が有効な場合と、自動選択で未判定または分離と判定した場合はtrue
+bool TsmfParser::use_parse_path() const
+{
+	if (has_tsmf_number()) { return true; }
+	if (auto_mode_ && (!auto_decided_ || effective_tsmf_number_ >= 1)) { return true; }
+	return false;
 }
 
 // データ初期化
@@ -93,6 +111,13 @@ void TsmfParser::clear()
 	is_abort_ = false;
 	slot_counter_ = -1;
 	tsmf_number_ = -1;
+
+	// (patched) 自動選択の判定状態も初期化する（tsmf_number_=-1なので自動モード）
+	auto_mode_ = true;
+	auto_decided_ = false;
+	effective_tsmf_number_ = 0;
+	auto_wait_packets_ = 0;
+
 	tsmf_data_.clear();
 	std::queue<std::unique_ptr<std::vector<uint8_t>>>().swap(ts_queue_);
 	ts_buffer_.reset();
@@ -136,7 +161,8 @@ bool TsmfParser::push(std::unique_ptr<std::vector<uint8_t>>& stream_buffer)
 	result_code_ = Result::None;
 
 	// 相対TS番号が範囲外の場合は入力されたTSデータをそのまま移動
-	if (!has_tsmf_number())
+	// (patched) 自動選択モードも分離処理側へ回す
+	if (!use_parse_path())
 	{
 		// (patched) notify a waiting pop() when the queue becomes non-empty
 		auto was_empty = ts_queue_.empty();
@@ -319,8 +345,43 @@ bool TsmfParser::parse_tsmf_packet(const uint8_t* buffer, size_t size)
 		return false;
 	}
 
+	// (patched) 自動選択モードで未判定の間はTSMFヘッダを探す
+	if (auto_mode_ && !auto_decided_)
+	{
+		if (parse_tsmf_header(buffer, size))
+		{
+			// 有効な相対TS番号のうち最小のものを選ぶ（無ければパススルー）
+			effective_tsmf_number_ = 0;
+			for (auto i = 0; i < 15; i++)
+			{
+				if (tsmf_data_.stream_info[i].stream_status != 0)
+				{
+					effective_tsmf_number_ = i + 1;
+					break;
+				}
+			}
+			auto_decided_ = true;
+			slot_counter_ = 0;
+			PLOGI << "tsmf auto: selected number = " << effective_tsmf_number_;
+			return false;
+		}
+
+		// ヘッダが来ない間はパケットを捨て、上限を超えたらTSMFなしと判定する
+		if (++auto_wait_packets_ >= AUTO_WAIT_PACKET_LIMIT)
+		{
+			auto_decided_ = true;
+			effective_tsmf_number_ = 0;
+			PLOGI << "tsmf auto: no TSMF header, passthrough";
+			return true;
+		}
+		return false;
+	}
+
+	// 実際に使う相対TS番号（自動選択時は判定済みの番号）
+	const int32_t number = auto_mode_ ? effective_tsmf_number_ : tsmf_number_;
+
 	// 相対TS番号が範囲外の場合は全てのスロットを返す
-	if (tsmf_number_ < 1 || tsmf_number_ > 15) { return true; }
+	if (number < 1 || number > 15) { return true; }
 
 	// TSMF多重フレームヘッダ
 	if (parse_tsmf_header(buffer, size))
@@ -335,10 +396,10 @@ bool TsmfParser::parse_tsmf_packet(const uint8_t* buffer, size_t size)
 	slot_counter_++;
 
 	// その相対TS番号は未使用
-	if (tsmf_data_.stream_info[tsmf_number_ - 1].stream_status == 0) { return false; }
+	if (tsmf_data_.stream_info[number - 1].stream_status == 0) { return false; }
 
 	// このスロットは他の相対TS番号用スロットか未割当
-	if (tsmf_data_.relative_stream_number[slot_counter_ - 1] != tsmf_number_) { return false; }
+	if (tsmf_data_.relative_stream_number[slot_counter_ - 1] != number) { return false; }
 
 	return true;
 }
