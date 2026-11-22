@@ -6,6 +6,7 @@ Signature="$Windows NT$"
 Class=Media
 ClassGuid={4d36e96c-e325-11ce-bfc1-08002be10318}
 Provider=%AuthorName%
+CatalogFile=t230c.cat
 DriverVer=10/01/2022,22.10.01.00
 
 [Manufacturer]

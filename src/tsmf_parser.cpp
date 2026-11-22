@@ -138,7 +138,10 @@ bool TsmfParser::push(std::unique_ptr<std::vector<uint8_t>>& stream_buffer)
 	// 相対TS番号が範囲外の場合は入力されたTSデータをそのまま移動
 	if (!has_tsmf_number())
 	{
+		// (patched) notify a waiting pop() when the queue becomes non-empty
+		auto was_empty = ts_queue_.empty();
 		ts_queue_.push(std::move(stream_buffer));
+		if (was_empty) { cv_pop_.notify_one(); }
 		result_code_ = Result::Ok;
 		return true;
 	}
@@ -152,7 +155,9 @@ bool TsmfParser::pop(std::unique_ptr<std::vector<uint8_t>>& stream_buffer)
 	std::unique_lock<std::mutex> lock(mutex_);
 
 	// キューが空でなくなる、中断フラグが設定される、タイムアウトするまで待つ
-	auto ret = cv_push_.wait_for(lock, timeout_pop_, [this]() { return !ts_queue_.empty() || is_abort_; });
+	// (patched) wait on cv_pop_ (data-available), not cv_push_ (space-available):
+	// push()/parse_ts_buffer() notify cv_pop_ when the queue becomes non-empty.
+	auto ret = cv_pop_.wait_for(lock, timeout_pop_, [this]() { return !ts_queue_.empty() || is_abort_; });
 
 	// 中断フラグ
 	if (is_abort_)

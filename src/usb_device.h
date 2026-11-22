@@ -51,6 +51,10 @@ public:
 	virtual void open_device();
 	virtual void close_device();
 	bool get_stream(std::unique_ptr<std::vector<uint8_t>>& stream_buffer);
+	// (patched) wake a thread blocked in get_stream()/SyncQueue::pop() so a
+	// channel change can join the parser thread without waiting out the
+	// 1000 ms pop timeout. The abort flag is reset by start_stream()'s clear().
+	void abort_stream_queue() { stream_queue_.abort(); }
 
 protected:
 	static constexpr uint16_t USB_VID_T230 = 0x0572;

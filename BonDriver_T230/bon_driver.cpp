@@ -88,6 +88,8 @@ void BonDriver::CloseTuner(void)
 		usb_bridge_.close_device();
 
 		is_streaming_ = false;
+		// (patched) same wake-before-join as SetChannel (see above).
+		usb_bridge_.abort_stream_queue();
 		if (streaming_thread_.joinable()) { streaming_thread_.join(); }
 		tsmf_parser_.abort();
 
@@ -126,6 +128,9 @@ const BOOL BonDriver::SetChannel(const DWORD dwSpace, const DWORD dwChannel)
 			<< " tsmf number = " << tsmf_number;
 
 		is_streaming_ = false;
+		// (patched) wake ParseTsmf blocked in SyncQueue::pop() before joining,
+		// otherwise the join waits out the 1000 ms pop timeout on every zap.
+		usb_bridge_.abort_stream_queue();
 		if (streaming_thread_.joinable()) { streaming_thread_.join(); }
 		tsmf_parser_.abort();
 		tsmf_parser_.clear();
